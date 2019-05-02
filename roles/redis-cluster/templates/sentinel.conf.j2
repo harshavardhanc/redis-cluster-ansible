@@ -1,0 +1,9 @@
+bind {{ inventory_hostname }}
+port 26379
+sentinel monitor redis-cluster {{ inventory_hostname }} 6379 2
+sentinel down-after-milliseconds redis-cluster 5000
+sentinel parallel-syncs redis-cluster 1
+sentinel failover-timeout redis-cluster 10000
+daemonize yes
+pidfile "{{ pid_dir }}/sentinel.pid"
+dir "{{ data_dir }}"
