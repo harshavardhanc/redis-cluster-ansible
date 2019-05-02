@@ -40,3 +40,22 @@
     - "{{ pid_dir }}"
     - "{{ log_dir }}"
     - "{{ data_dir }}"
+
+- name: copy redis config to master
+  template:
+    src: templates/redis.conf.j2
+    dest: "{{ config_dir }}/redis.conf"
+  delegate_to: "{{ groups['redis'][0] }}"
+
+- name: copy sentinel config to master
+  template:
+    src: templates/sentinel.conf.j2
+    dest: "{{ config_dir }}/sentinel.conf"
+  delegate_to: "{{ groups['redis'][0] }}"
+
+- name: copy redis config to slaves
+  template:
+    src: templates/redis-slave.conf.j2
+    dest: "{{ config_dir }}/redis.conf"
+  delegate_to: "{{ item }}"
+  with_items: "{{ groups['slaves'] }}"

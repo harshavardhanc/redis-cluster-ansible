@@ -1,9 +1,10 @@
 [redis]
 172.18.0.2 ansible_ssh_user=root ansible_password=root ansible_python_interpreter=/usr/bin/python3
 
-#[slaves]
-#172.18.0.3 ansible_ssh_user=root ansible_password=root ansible_python_interpreter=/usr/bin/python3                                                  172.18.0.4 ansible_ssh_user=root ansible_password=root ansible_python_interpreter=/usr/bin/python3                                                    
-#
-#[redisall:children]
-#redis
-#slaves
+[slaves]
+172.18.0.3 ansible_ssh_user=root ansible_password=root ansible_python_interpreter=/usr/bin/python3
+172.18.0.4 ansible_ssh_user=root ansible_password=root ansible_python_interpreter=/usr/bin/python3                                                    
+
+[redisall:children]
+redis
+slaves
