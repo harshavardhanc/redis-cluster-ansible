@@ -43,19 +43,23 @@
 
 - name: copy redis config to master
   template:
-    src: templates/redis.conf.j2
-    dest: "{{ config_dir }}/redis.conf"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
   delegate_to: "{{ groups['redis'][0] }}"
-
-- name: copy sentinel config to master
-  template:
-    src: templates/sentinel.conf.j2
-    dest: "{{ config_dir }}/sentinel.conf"
-  delegate_to: "{{ groups['redis'][0] }}"
+  with_items:
+    - {src: 'templates/redis.conf.j2',dest: '{{ config_dir }}/redis.conf'}
+    - {src: 'templates/sentinel.conf.j2',dest: '{{ config_dir }}/sentinel.conf'}
 
 - name: copy redis config to slaves
   template:
     src: templates/redis-slave.conf.j2
     dest: "{{ config_dir }}/redis.conf"
+  delegate_to: "{{ item }}"
+  with_items: "{{ groups['slaves'] }}"
+
+- name: copy sentinel config to slaves
+  template:
+    src: templates/sentinel-slave.conf.j2
+    dest: "{{ config_dir }}/sentinel.conf"
   delegate_to: "{{ item }}"
   with_items: "{{ groups['slaves'] }}"
