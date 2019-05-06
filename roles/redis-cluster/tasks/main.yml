@@ -63,3 +63,22 @@
     dest: "{{ config_dir }}/sentinel.conf"
   delegate_to: "{{ item }}"
   with_items: "{{ groups['slaves'] }}"
+
+- name: copy redis init scripts
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0777
+  with_items:
+    - {src: 'templates/redis_start_stop.sh.j2',dest: '/etc/init.d/redis'}
+    - {src: 'templates/sentinel_start_stop.sh.j2',dest: '/etc/init.d/sentinel'}
+
+- name: start redis
+  service:
+    name: redis
+    state: started
+
+- name: start sentinel
+  service:
+    name: sentinel
+    state: started

@@ -1,4 +1,4 @@
-bind {{ inventory_hostname }}
+bind {{hostvars[item]['ansible_default_ipv4']['address']}}
 port 26379
 sentinel monitor redis-cluster {{groups['redis'][0]}} 6379 2
 sentinel down-after-milliseconds redis-cluster 5000
