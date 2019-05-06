@@ -74,11 +74,7 @@
     - {src: 'templates/sentinel_start_stop.sh.j2',dest: '/etc/init.d/sentinel'}
 
 - name: start redis
-  service:
-    name: redis
-    state: started
+  shell: "/etc/init.d/redis start"
 
 - name: start sentinel
-  service:
-    name: sentinel
-    state: started
+  shell: "/etc/init.d/sentinel start"
