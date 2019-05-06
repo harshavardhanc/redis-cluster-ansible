@@ -12,24 +12,24 @@
 
 - name: download redis tar file
   get_url:
-    url: "http://download.redis.io/releases/redis-4.0.11.tar.gz"
-    dest: /root/redis-4.0.11.tar.gz
+    url: "http://download.redis.io/releases/redis-"{{version}}".tar.gz"
+    dest: /root/redis-"{{version}}".tar.gz
 
 - name: unarchive redis
   unarchive:
-    src: /root/redis-4.0.11.tar.gz
+    src: /root/redis-"{{version}}".tar.gz
     dest: /root/
     remote_src: yes
 
 - name: change to redis dir and make
   shell: make
   args:
-    chdir: /root/redis-4.0.11
+    chdir: /root/redis-"{{version}}"
 
 - name: change to redis dir and make
   shell: make install
   args:
-    chdir: /root/redis-4.0.11
+    chdir: /root/redis-"{{version}}"
 
 - name: create required directories
   file:
