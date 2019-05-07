@@ -11,7 +11,6 @@
     - tcl
 
 - name: download redis tar file
-  become: yes
   get_url:
     url: "http://download.redis.io/releases/redis-{{version}}.tar.gz"
     dest: "{{home_dir}}/redis-{{version}}.tar.gz"
