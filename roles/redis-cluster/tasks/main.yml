@@ -11,25 +11,26 @@
     - tcl
 
 - name: download redis tar file
+  become: yes
   get_url:
     url: "http://download.redis.io/releases/redis-{{version}}.tar.gz"
-    dest: /root/redis-{{version}}.tar.gz
+    dest: "{{home_dir}}/redis-{{version}}.tar.gz"
 
 - name: unarchive redis
   unarchive:
-    src: /root/redis-{{version}}.tar.gz
-    dest: /root/
+    src: "{{home_dir}}/redis-{{version}}.tar.gz"
+    dest: "{{home_dir}}/"
     remote_src: yes
 
 - name: change to redis dir and make
   shell: make
   args:
-    chdir: /root/redis-{{version}}
+    chdir: "{{home_dir}}/redis-{{version}}"
 
 - name: change to redis dir and make
   shell: make install
   args:
-    chdir: /root/redis-{{version}}
+    chdir: "{{home_dir}}/redis-{{version}}"
 
 - name: create required directories
   file:
